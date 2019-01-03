@@ -2,7 +2,6 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Stack;
 
 import data.Graph;
@@ -10,11 +9,11 @@ import data.Maze;
 import data.Node;
 
 public class DFSSolve implements SolvingAlgorithm{
+	
+	private boolean Debug = false;
+	private String _debug = "";
 
-	//TODO change to stack
 	private Stack<Integer> nodesToGo = new Stack<Integer>();
-	//private Queue<Integer> nodesToGo = new LinkedList<>();
-	private Stack<Integer> path = new Stack<Integer>();
 	
 	private Graph G;
 	private LinkedList<Node> N;
@@ -24,8 +23,7 @@ public class DFSSolve implements SolvingAlgorithm{
 	private int[] solution;
 	
 	private int X;
-	private int Y;
-	
+	private int Y;	
 	
 	@Override
 	public Maze SolveMaze(Maze M) {
@@ -37,50 +35,57 @@ public class DFSSolve implements SolvingAlgorithm{
 		graph = G.getGraph();
 		visited = new boolean[G.getTotalNodes()];
 		solution = new int[G.getTotalNodes()];
-		path.add(0);
 		nodesToGo.add(0);	//add starting node, ID always 0
+		
 		DFS();
-		for(int i=0; i<path.size(); i++) {
-			System.out.print(path.pop()+"\n");
-		}
-		solved.Solution(visited, solution);
+
+		solved.solution(visited, solution);
 		return solved;
 	}
 	
 	private void DFS() {
-		System.out.println(X+" "+Y);
 		while(nodesToGo.size()>0) {
 			int c_node = nodesToGo.pop();
 			Node c_N = N.get(c_node);
 			visited[c_node] = true;
-			System.out.println("Teraz: "+c_node);
+			
+			_debug="Teraz: "+c_node+"\n";
 			
 			if(c_N.getX() == X && c_N.getY() == Y) {
-				System.out.println("JAJ");
+				_debug+="KONIEC\n";
 				break;
 			}
-			
-			boolean back=true;
-			//System.out.println(graph);
-			System.out.println("Sasiedzi:");
+			_debug+="  Sasiedzi:\n";
 			for(int i=0; i<graph.get(c_node).size(); i++) {
 				Node NN = graph.get(c_node).get(i);
-				System.out.print("\t"+NN.getID());
+				_debug+="\t"+NN.getID();
 				if(!visited[NN.getID()]) {
-					System.out.print("<--");
+					solution[NN.getID()]=c_node;
+					_debug+="<--";
 					nodesToGo.push(NN.getID());
-					path.push(NN.getID());
-					back=false;
-					//break;
 				}
-				System.out.println();
+				_debug+="\n";
 			}
-			System.out.println("Czy back: "+back);
-
-			if(back) {
-				path.pop();
-			}
+			
+			if(Debug)System.out.println(_debug);
 		}
+		
+		LinkedList<Integer>sol = new LinkedList<Integer>();
+		int end = G.getTotalNodes()-1;
+		int c = end;
+		while(c!=0) {
+			sol.addFirst(c);
+			c=solution[c];
+		}
+		
+		solution = new int[sol.size()];
+		for(int i=0; i<sol.size(); i++) 
+		{
+			solution[i]=sol.get(i);
+			if(Debug)
+				System.out.println(sol.get(i));
+		}
+		
 	}
 
 }

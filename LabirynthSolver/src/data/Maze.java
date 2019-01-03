@@ -1,5 +1,7 @@
 package data;
 
+import java.awt.image.BufferedImage;
+//TODO make sure to check if values aren't null
 public class Maze {
 	
 	private int[][] maze=null;
@@ -8,14 +10,16 @@ public class Maze {
 	private Graph mazeG;
 	private boolean[]visited;
 	private int[]solution;
+	private BufferedImage img;
 	
-	public Maze(int[][] m, int x, int y) {
+	public Maze(int[][] m, int x, int y, BufferedImage i) {
 		maze = m;
 		ex = x;
 		ey = y;
+		img = i;
 	}
 	
-	public void Solution(boolean[] v, int[] s) {
+	public void solution(boolean[] v, int[] s) {
 		visited = v;
 		solution = s;
 	}
@@ -26,6 +30,18 @@ public class Maze {
 	
 	public Graph getGraph() {
 		return mazeG;
+	}
+	
+	public int[] getSolution(){
+		return solution;
+	}
+	
+	public boolean[] getVisited(){
+		return visited;
+	}
+	
+	public BufferedImage getImg() {
+		return img;
 	}
 	
 	public int getValue(int x, int y) {

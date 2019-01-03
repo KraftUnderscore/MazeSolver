@@ -1,24 +1,39 @@
 package data;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
 public class ImageInterpreter {
 	
-	BufferedImage img;
+	private BufferedImage img;
 	
 	public Maze ImageToMap(String path) {
 		try {
 			img = ImageIO.read(new File(path));
+			img = convertToARGB(img);
 			return convert();
 		}catch(IOException e) {
 			System.out.println("Blad podczas wczytywania pliku.\n"
 					+ "Upewnij sie, ze sciezka zostala poprawnie wpisana");
 		}
 		return null;
+	}
+	
+	private BufferedImage convertToARGB(BufferedImage image)
+	{
+	    BufferedImage newImage = new BufferedImage(
+	        image.getWidth(), image.getHeight(),
+	        BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g = newImage.createGraphics();
+	    g.drawImage(image, 0, 0, null);
+	    g.dispose();
+	    return newImage;
 	}
 	
 	private Maze convert() {
@@ -36,10 +51,29 @@ public class ImageInterpreter {
 				}
 			}
 		}
-		
-		return new Maze(maze, ex, maze[0].length-1);
+		return new Maze(maze, ex, maze[0].length-1, img);
 	}
-	/*public void SaveImage(String path) {
+	
+	public void MazeToImage(String path, Maze maze) {
+		LinkedList<Node> nodes = maze.getGraph().getNodes();
+		img = maze.getImg();
+		int sol[] = maze.getSolution();
+		boolean vis[] = maze.getVisited();
+		Color solColor = new Color(255,0,0);
+		Color visColor = new Color(0, 70, 150);
+		for(int i=0; i<vis.length; i++) {
+			if(vis[i]) {
+				img.setRGB(nodes.get(i).getX(), nodes.get(i).getY(), visColor.getRGB());
+			}
+		}
+		
+		for(int i=0; i<sol.length; i++) {
+			img.setRGB(nodes.get(sol[i]).getX(), nodes.get(sol[i]).getY(), solColor.getRGB());
+		}
+		
+		img.setRGB(nodes.get(0).getX(), nodes.get(0).getY(), solColor.getRGB());
+
+		
 		try {
 			ImageIO.write(img, "png", new File(path));
 		}catch(IOException e) {
@@ -47,22 +81,4 @@ public class ImageInterpreter {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	public int GetImgHeight() {
-		return img.getHeight();
-	}
-	
-	public int GetImgWidth() {
-		return img.getWidth();
-	}
-	
-	public int GetPixel(int x, int y) {
-		return img.getRGB(x, y);
-	}
-	
-	public void SetPixel(int x, int y, int vRGB) {
-		img.setRGB(x, y, vRGB);
-	}*/
 }

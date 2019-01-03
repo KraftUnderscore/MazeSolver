@@ -15,4 +15,8 @@ public class MazeCreator {
 		m.setGraph(gc.CreateGraph(m));
 		return m;
 	}
+	
+	public void saveMaze(String path, Maze maze) {
+		ii.MazeToImage(path, maze);
+	}
 }

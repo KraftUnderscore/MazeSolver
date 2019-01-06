@@ -1,5 +1,7 @@
 package data;
 
+import java.awt.image.BufferedImage;
+
 public class MazeCreator {
 	
 	private GraphCreator gc;
@@ -16,7 +18,9 @@ public class MazeCreator {
 		return m;
 	}
 	
-	public void saveMaze(String path, Maze maze) {
-		ii.MazeToImage(path, maze);
+	public BufferedImage saveMaze(String path, String algorithm, Maze maze) {
+		ii.MazeToImage(path, algorithm, maze);
+		return ii.getImg();
 	}
+
 }

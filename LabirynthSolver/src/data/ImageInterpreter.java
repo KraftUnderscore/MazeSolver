@@ -54,7 +54,7 @@ public class ImageInterpreter {
 		return new Maze(maze, ex, maze[0].length-1, img);
 	}
 	
-	public void MazeToImage(String path, Maze maze) {
+	public void MazeToImage(String path, String algorithm, Maze maze) {
 		LinkedList<Node> nodes = maze.getGraph().getNodes();
 		img = maze.getImg();
 		int sol[] = maze.getSolution();
@@ -72,13 +72,18 @@ public class ImageInterpreter {
 		}
 		
 		img.setRGB(nodes.get(0).getX(), nodes.get(0).getY(), solColor.getRGB());
-
-		
-		try {
+		//TODO save to file
+		path.replace(".png", "LOL"+".png");
+		System.out.println(path);
+		/*try {
 			ImageIO.write(img, "png", new File(path));
 		}catch(IOException e) {
 			System.out.println("Blad podczas zapisywania pliku.\n");
 			e.printStackTrace();
-		}
+		}*/
+	}
+	
+	public BufferedImage getImg() {
+		return img;
 	}
 }

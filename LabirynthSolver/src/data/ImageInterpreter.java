@@ -73,8 +73,6 @@ public class ImageInterpreter {
 		
 		img.setRGB(nodes.get(0).getX(), nodes.get(0).getY(), solColor.getRGB());
 		//TODO save to file
-		path.replace(".png", "LOL"+".png");
-		System.out.println(path);
 		/*try {
 			ImageIO.write(img, "png", new File(path));
 		}catch(IOException e) {
@@ -84,6 +82,7 @@ public class ImageInterpreter {
 	}
 	
 	public BufferedImage getImg() {
-		return img;
+		BufferedImage t = img;
+		return t;
 	}
 }

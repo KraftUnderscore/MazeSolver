@@ -85,6 +85,9 @@ public class GUI extends JPanel implements ActionListener{
 			    File selectedFile = fileChooser.getSelectedFile();
 			    path = selectedFile.getAbsolutePath();
 			    updateFilePath();
+			    for(int i=0; i<tabbedPane.getTabCount(); i++) {
+		        	tabbedPane.remove(i);
+		        }
 			    updateTabbedPane();
 			}
         }else if(e.getSource()==solve) {
@@ -104,7 +107,6 @@ public class GUI extends JPanel implements ActionListener{
         		algoToUse[2]="";
         	}
         	SolutionData s = Manager.request(new SolutionRequest(path, algoToUse));
-        	
             updateTabbedPane(algoToUse, s.solution);  
         }
 	}
@@ -112,9 +114,7 @@ public class GUI extends JPanel implements ActionListener{
     private JTabbedPane makeTabbedPane() {
     	JTabbedPane tabbedPane = new JTabbedPane();
     	JPanel originalImg;
-    	for(int i=0; i<tabbedPane.getTabCount(); i++) {
-        	tabbedPane.remove(i);
-        }
+    	
     	originalImg = new JPanel();
     	
 		tabbedPane.addTab("Original", null, originalImg, null);
@@ -264,36 +264,36 @@ public class GUI extends JPanel implements ActionListener{
     }
     
     private void updateTabbedPane() {
+    	
     	for(int i=0; i<tabbedPane.getTabCount(); i++) {
     		tabbedPane.remove(i);
     	}
+    	
     	JPanel originalImg = makeImagePanel();
 		tabbedPane.addTab("Original", null, originalImg, null);
 
     }
     
     private void updateTabbedPane(String[] toAdd, BufferedImage[] solutions) {
-    	JPanel originalImg = makeImagePanel();
         
-        for(int i=0; i<tabbedPane.getTabCount(); i++) {
+        for(int i=1; i<tabbedPane.getTabCount(); i++) {
         	tabbedPane.remove(i);
         }
-		tabbedPane.addTab("Original", null, originalImg, null);
 
         for(int i=0; i<toAdd.length; i++) {
         	if(solutions[i]!=null) {
 	        	switch(toAdd[i]) {
 	        	case "DFS":
-	                JPanel dfsImg = makeImagePanel(solutions[0]);
+	                JPanel dfsImg = makeImagePanel(solutions[i]);
 	        		tabbedPane.addTab(toAdd[i], null, dfsImg, null);
 	        		System.out.println(tabbedPane.getTabCount());
 	        		break;
 	        	case "BFS":
-	                JPanel bfsImg = makeImagePanel(solutions[1]);
+	                JPanel bfsImg = makeImagePanel(solutions[i]);
 	        		tabbedPane.addTab(toAdd[i], null, bfsImg, null);
 	        		break;
 	        	case "Djikstra":
-	                JPanel djikstraImg = makeImagePanel(solutions[2]);
+	                JPanel djikstraImg = makeImagePanel(solutions[i]);
 	        		tabbedPane.addTab(toAdd[i], null, djikstraImg, null);
 	        		break;
 	        	}	

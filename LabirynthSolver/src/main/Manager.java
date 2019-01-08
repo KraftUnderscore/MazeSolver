@@ -3,6 +3,7 @@ package main;
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
 
+import algorithms.BFSSolve;
 import algorithms.DFSSolve;
 import algorithms.SolvingAlgorithm;
 import data.Maze;
@@ -15,15 +16,13 @@ import graphics.GUI;
 public class Manager {
 	
 	public static void main(String args[]) {
-		/*String[] fs = {"10x10.png"};
-		String[] fs = {"5x5.png", "10x10.png", "tiny.png", "small.png", "normal.png", "50x50.png", "100x100.png"};
-		String[] fs = {"perfect2k.png"};
+		/*String[] fs = {"100x100.png"};
 		boolean Debug=true;
 		String _debug;
 		
 		Timer t = new Timer();
 		
-		SolvingAlgorithm dfs = new DFSSolve();
+		SolvingAlgorithm dfs = new BFSSolve();
 		MazeCreator mc = new MazeCreator();
 		_debug="Start\n";
 		for(int i=0; i<fs.length; i++) {
@@ -35,7 +34,7 @@ public class Manager {
 			t.start();
 			m = dfs.SolveMaze(m);
 			_debug+="Rozwiazano w "+t.elapsedms()+"ms\n";
-			mc.saveMaze("D:\\Oracle\\workspace\\LabirynthSolver\\Solutions\\DFS"+fs[i], m);
+			mc.saveMaze("D:\\Oracle\\workspace\\LabirynthSolver\\Solutions1\\bfs.png", "BFS", m);
 		}
 		if(Debug)
 			System.out.println(_debug);*/
@@ -51,6 +50,7 @@ public class Manager {
 		
 		MazeCreator mc = new MazeCreator();
 		SolvingAlgorithm dfs = new DFSSolve();
+		SolvingAlgorithm bfs = new BFSSolve();
 		Timer t = new Timer();
 		
 		int totalNodes=0;
@@ -59,7 +59,6 @@ public class Manager {
 		String[] algorithm = req.algo;
 		BufferedImage[] solution = new BufferedImage[3];
 
-		
 		t.start();
 		Maze m = mc.createMaze(req.path);
 		mapCreationTime=t.elapsedms();
@@ -71,12 +70,15 @@ public class Manager {
         		Maze s = dfs.SolveMaze(m);
         		solveTime[i]= t.elapsed();
         		solution[i] = mc.saveMaze(req.path, req.algo[i], s);
+        		System.out.println("HEJ" + i +" "+ solution[i].hashCode());
         		break;
         	case "BFS":
         		t.start();
-        		Maze s1 = dfs.SolveMaze(m);
+        		Maze s1 = bfs.SolveMaze(m);
         		solveTime[i]= t.elapsed();
         		solution[i] = mc.saveMaze(req.path, req.algo[i], s1);
+        		System.out.println("HEJ" + i +" "+ solution[i].hashCode());
+
         		break;
         	case "Djikstra":
         		t.start();

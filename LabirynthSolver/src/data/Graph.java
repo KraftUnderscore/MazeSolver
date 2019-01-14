@@ -1,17 +1,24 @@
 package data;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Graph {
 	
 	private LinkedList<Node> nodes;
-	//TODO change linkedlist<node> to integer
 	private HashMap<Integer, LinkedList<Node>> graph;
 	
 	public Graph() {
 		nodes = new LinkedList<Node>();
 		graph = new HashMap<Integer, LinkedList<Node>>();
+	}
+	
+	class nodeSort implements Comparator<Node> {
+	    @Override
+	    public int compare(Node a, Node b) {
+	    	return a.getID() - b.getID();
+	    }
 	}
 	
 	@Override
@@ -33,6 +40,19 @@ public class Graph {
 		}
 	}
 	
+	public void addEdge(Node n1, Node n2) {
+		if(!n1.equals(n2)) {
+			if(graph.containsKey(n1.getID())) {
+				graph.get(n1.getID()).add(n2);
+				graph.get(n2.getID()).add(n1);
+			}
+		}
+	}
+	
+	public void sortNodes() {
+		nodes.sort(new nodeSort());
+	}
+	
 	public int getTotalNodes() {
 		return nodes.size();
 	}
@@ -45,13 +65,6 @@ public class Graph {
 		return graph;
 	}
 	
-	public void addEdge(Node n1, Node n2) {
-		if(!n1.equals(n2)) {
-			if(graph.containsKey(n1.getID())) {
-				graph.get(n1.getID()).add(n2);
-				//graph.get(n2.getID()).add(n1);
-			}
-		}
-	}
+
 
 }

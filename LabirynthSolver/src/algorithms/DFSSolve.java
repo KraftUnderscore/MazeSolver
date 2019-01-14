@@ -21,7 +21,8 @@ public class DFSSolve implements SolvingAlgorithm{
 	
 	private boolean[] visited;
 	private int[] solution;
-	
+	private int length=0;
+
 	private int X;
 	private int Y;	
 	
@@ -39,7 +40,7 @@ public class DFSSolve implements SolvingAlgorithm{
 		
 		DFS();
 
-		solved.solution(visited, solution);
+		solved.solution(visited, solution, length);
 		return solved;
 	}
 	
@@ -48,7 +49,9 @@ public class DFSSolve implements SolvingAlgorithm{
 			int c_node = nodesToGo.pop();
 			Node c_N = N.get(c_node);
 			visited[c_node] = true;
-			
+			//if(c_node%1000==0)
+				System.out.println("DFS "+c_node);
+
 			_debug="Teraz: "+c_node+"\n";
 			
 			if(c_N.getX() == X && c_N.getY() == Y) {
@@ -81,6 +84,8 @@ public class DFSSolve implements SolvingAlgorithm{
 		solution = new int[sol.size()];
 		for(int i=0; i<sol.size(); i++) 
 		{
+			length++;
+
 			solution[i]=sol.get(i);
 			if(Debug)
 				System.out.println(sol.get(i));

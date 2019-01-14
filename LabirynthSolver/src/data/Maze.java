@@ -11,6 +11,7 @@ public class Maze {
 	private boolean[]visited;
 	private int[]solution;
 	private BufferedImage img;
+	private int length;
 	
 	public Maze(int[][] m, int x, int y, BufferedImage i) {
 		maze = m;
@@ -18,10 +19,15 @@ public class Maze {
 		ey = y;
 		img = i;
 	}
-	
-	public void solution(boolean[] v, int[] s) {
+
+	public void setImg(BufferedImage img) {
+		this.img = img;
+	}
+
+	public void solution(boolean[] v, int[] s, int l) {
 		visited = v;
 		solution = s;
+		length = l;
 	}
 	
 	public void setGraph(Graph G) {
@@ -62,5 +68,9 @@ public class Maze {
 	
 	public int getHeight() {
 		return maze.length;
+	}
+
+	public int getLength() {
+		return length;
 	}
 }

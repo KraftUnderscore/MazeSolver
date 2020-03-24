@@ -1,4 +1,4 @@
-# LabirynthSolver
+# MazeSolver
 My first programming project for my university. This application allows you to input an image of a maze and it outputs solutions created with different algorithms.
 ## Mazes
 Each input image has to meet certain criteria( examples are provided in the <i>Mazes</i> folder):
